@@ -1,10 +1,12 @@
 const sortDigitsInNum = num => num.toString().split('').sort((numA, numB) => numA - numB).join('');
 
-function nextSmaller(n) {
+const checkIfAllArrElsAreIdentical = (fn, ...nums) => nums.every(num => fn(num) === fn(nums[0]));
+
+function nextSmaller(n, fn) {
   return function nextSmallerInner(num) {
     num = num || n;
 
-    if ( num !== n && sortDigitsInNum(n) === sortDigitsInNum(num) ) {
+    if ( num !== n && fn(num, n) ) {
       return num;
     } else if ( num === 1 ) {
       return -1;
@@ -14,5 +16,5 @@ function nextSmaller(n) {
   }
 }
 
-let nextSmallerNumAfter21 = nextSmaller(21),
+let nextSmallerNumAfter21 = nextSmaller(21, checkIfAllArrElsAreIdentical.bind(null, sortDigitsInNum)),
     result = nextSmallerNumAfter21();
